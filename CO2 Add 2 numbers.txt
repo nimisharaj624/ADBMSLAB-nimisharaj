@@ -1,0 +1,21 @@
+SQL> create or replace function add_fun(a number,b number) return number as
+  2  c number;
+  3  begin
+  4  c:=a+b;
+  5  return c;
+  6  end;
+  7  /
+
+Function created.
+
+SQL> declare
+  2  result number;
+  3  begin
+  4  result:=add_fun(20,40);
+  5  dbms_output.put_line('Result is: '||result);
+  6  end;
+  7  /
+Result is: 60
+
+PL/SQL procedure successfully completed.
+© 2021 GitHub, Inc.
