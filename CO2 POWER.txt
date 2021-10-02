@@ -1,0 +1,37 @@
+SQL> set serveroutput on;
+
+SQL> create or replace function pow (n1 number,n2 number) return number as
+  2  res number;
+  3  begin
+  4  select power (n1,n2) into res from dual;
+  5  return res;
+  6  end;
+  7  /
+
+Function created.
+
+SQL> select power (2,4) from dual;
+
+POWER(2,4)
+----------
+        16
+		
+		
+SQL> declare
+  2  a number;
+  3  b number;
+  4  begin
+  5  a:=&a;
+  6  b:=&b;
+  7  dbms_output.put_line('power(n1,n2)='||pow(a,b));
+  8  end;
+  9  /
+Enter value for a: 2
+old   5: a:=&a;
+new   5: a:=2;
+Enter value for b: 4
+old   6: b:=&b;
+new   6: b:=4;
+power(n1,n2)=16
+
+PL/SQL procedure successfully completed.
