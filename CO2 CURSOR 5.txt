@@ -1,0 +1,84 @@
+Calculate the final IA and update the corresponding table for all students.
+
+
+SQL> set serveroutput on;
+
+SQL> create table internalmar(reg_no int primary key,scode varchar(10),Test1 number(10),Test2 number(10),Test3 number(10),Final_internalmar number(10));
+
+Table created.
+
+SQL> insert into internalmar values(101,'CLAB112',45,34,12,null);
+
+1 row created.
+
+SQL> insert into internalmar values(104,'DBMS123',33,22,35,null);
+
+1 row created.
+
+SQL> insert into internalmar values(345,'Pythn236',44,43,42,null);
+
+1 row created.
+
+SQL> desc internalmar;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ REG_NO                                    NOT NULL NUMBER(38)
+ SCODE                                              VARCHAR2(10)
+ TEST1                                              NUMBER(10)
+ TEST2                                              NUMBER(10)
+ TEST3                                              NUMBER(10)
+ FINAL_internalmar                                  NUMBER(10)
+
+SQL> select * from internalmar;
+
+    REG_NO SCODE           TEST1      TEST2      TEST3 FINAL_internalmar
+---------- ---------- ---------- ---------- ---------- -------------
+       101 CLAB112            45         34         12
+       104 DBMS123            33         22         35
+       345 Pythn236           44         43         42
+	   
+	   
+SQL> create or replace procedure avgmarks is
+  2  cursor curs is
+  3  select greatest(Test1,Test2) as A,greatest(Test1,Test3) as B,greatest(Test3,Test2) as C
+  4  from internalmar where Final_internalmar is null for update;
+  5  C_A number;
+  6  C_B number;
+  7  C_C number;
+  8  C_SM number;
+  9  C_AV number;
+ 10  begin
+ 11  open curs;
+ 12  loop
+ 13  fetch curs into C_A, C_B, C_C;
+ 14  exit when curs%notfound;
+ 15  dbms_output.put_line(C_A || ' ' || C_B || ' ' || C_C);
+ 16  if (C_A != C_B) then
+ 17  C_SM:=C_A+C_B;
+ 18  else
+ 19  C_SM:=C_A+C_C;
+ 20  end if;
+ 21  C_AV:=C_SM/2;
+ 22  update internalmar set Final_internal=C_AV where current of curs;
+ 23  end loop;
+ 24  close curs;
+ 25  end;
+ 26  /
+
+Procedure created.
+
+SQL> exec avgmarks;
+45 45 34
+33 35 35
+44 44 43
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from internalmar;
+
+    REG_NO SCODE           TEST1      TEST2      TEST3 FINAL_internalmar
+---------- ---------- ---------- ---------- ---------- -------------
+       101 CLAB112            45         34         12            40
+       104 DBMS123            33         22         35            34
+       345 Pythn236           44         43         42            44
+	   
