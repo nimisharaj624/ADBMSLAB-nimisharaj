@@ -1,0 +1,86 @@
+SQL> create table items(item_id integer primary key,itemname varchar(20),price float);
+
+Table created.
+
+SQL> insert into items values(&item_id,'&itemname',&price);
+Enter value for item_id: 132
+Enter value for itemname: Geera
+Enter value for price: 206.25
+old   1: insert into items values(&item_id,'&itemname',&price)
+new   1: insert into items values(132,'Rice',206.25)
+
+1 row created.
+
+SQL> insert into items values(&item_id,'&itemname',&price);
+Enter value for item_id: 211
+Enter value for itemname: Corn soup
+Enter value for price: 34.65
+old   1: insert into items values(&item_id,'&itemname',&price)
+new   1: insert into items values(211,'Chips',34.65)
+
+1 row created.
+
+SQL> insert into items values(&item_id,'&itemname',&price);
+Enter value for item_id: 212
+Enter value for itemname: Lays
+Enter value for price: 20
+old   1: insert into items values(&item_id,'&itemname',&price)
+new   1: insert into items values(212,'wheat',20)
+
+1 row created.
+
+SQL> insert into items values(&item_id,'&itemname',&price);
+Enter value for item_id: 453
+Enter value for itemname: Set
+Enter value for price: 99.99
+old   1: insert into items values(&item_id,'&itemname',&price)
+new   1: insert into items values(453,'pappadam',99.99)
+
+1 row created.
+
+SQL> insert into items values(&item_id,'&itemname',&price);
+Enter value for item_id: 231
+Enter value for itemname: Duracell
+Enter value for price: 45.5
+old   1: insert into items values(&item_id,'&itemname',&price)
+new   1: insert into items values(231,'Duracell',45.5)
+
+1 row created.
+
+SQL> select * from items;
+
+   ITEM_ID ITEMNAME                  PRICE
+---------- -------------------- ----------
+      132 Rice                    206.25
+      211 Chips                    34.65
+      212 wheat                       20
+      453 pappadam                 99.99
+      231 Duracell                  45.5
+	  
+	  
+SQL> create or replace function itemprice(id number) return number is
+  2  p item.price % type;
+  3  begin
+  4  select price into p from items where item_id=id;
+  5  return(p);
+  6  end;
+  7  /
+
+Function created.
+
+
+SQL> declare
+  2  pr number;
+  3  id number;
+  4  begin
+  5  id:=&itemid;
+  6  pr:=itemprice(id);
+  7  dbms_output.put_line('item price is RS:'||pr);
+  8  end;
+  9  /
+Enter value for itemid: 212
+old   5: id:=&itemid;
+new   5: id:=212;
+item price is RS:20
+
+PL/SQL procedure successfully completed.
