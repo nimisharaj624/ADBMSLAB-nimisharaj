@@ -1,0 +1,130 @@
+SQL> create table customers(id integer primary key,name varchar(20),age char(20),address varchar(20),salary float);
+
+Table created.
+
+SQL> insert into customers values(1,'Ramu',32,'Ahmedabad',2000.00);
+
+1 row created.
+
+SQL> insert into customers values(2,'Karthika',25,'Dhelhi',1500.00);
+
+1 row created.
+
+SQL> insert into customers values(3,'Kaushik',23,'Kota',2000.00);
+
+1 row created.
+
+SQL> insert into customers values(4,'Chaithanya',25,'Mumbai',6500.00);
+
+1 row created.
+
+SQL> insert into customers values(5,'Harsha',27,'Bhopal',8500.00);
+
+1 row created.
+
+SQL> insert into customers values(6,'Nimisha',22,'MP',4500.00);
+
+1 row created.
+
+SQL> insert into customers values(7,'Mridula',24,'Indore',10000.00);
+
+1 row created.
+
+SQL> set linesize 120
+
+SQL> select * from customers;
+
+        ID NAME                 AGE                  ADDRESS                  SALARY
+---------- -------------------- -------------------- -------------------- ----------
+         1 Ramu               32                   Ahmedabad                  2000
+         2 Karthika           25                   Dhelhi                     1500
+         3 Kaushik            23                   Kota                       2000
+         4 Chaithanya         25                   Mumbai                     6500
+         5 Harsha             27                   Bhopal                     8500
+         6 Nimisha            22                   MP                         4500
+         7 Mridula            24                   Indore                    10000
+
+7 rows selected.
+
+
+SQL> create table order(oid integer,dates varchar(15),customer_id integer,amount integer);
+
+Table created.
+
+SQL> insert into order values(102,'2009-10-08',3,3000);
+
+1 row created.
+
+SQL> insert into order values(100,'2009-10-08',3,1500);
+
+1 row created.
+
+SQL> insert into order values(101,'2009-11-20',2,1560);
+
+1 row created.
+
+SQL> insert into order values(103,'2008-05-20',4,2060);
+
+1 row created.
+
+SQL> select * from order;
+
+       OID DATES           CUSTOMER_ID     AMOUNT
+---------- --------------- ----------- ----------
+       102 2009-10-08                3       3000
+       100 2009-10-08                3       1500
+       101 2009-11-20                2       1560
+       103 2008-05-20                4       2060
+
+SQL> commit;
+
+Commit complete.
+
+
+A)   SQL> select id,name,amount,dates from customers inner join orders on customers.id = orders.customer_id;
+
+            ID NAME                     AMOUNT DATES
+         ---------- -------------------- ---------- ---------------
+          2 Karthika                     1560 2009-11-20
+          3 Kaushik                      1500 2009-10-08
+          3 Kaushik                      3000 2009-10-08
+          4 Chaithanya                   2060 2008-05-20
+
+B)   SQL> select id,name,amount,dates from customers left join orders on customers.id = orders.customers_id;
+
+           ID NAME                     AMOUNT DATES
+       ---------- -------------------- ---------- ---------------
+          3 Kaushik                    3000 2009-10-08
+          3 Kaushik                    1500 2009-10-08
+          2 Khilan                     1560 2009-11-20
+          4 Chaithanya                   2060 2008-05-20
+          5 Harsha
+          1 Ramu
+          6 Nimisha
+          7 Mridula
+
+        8 rows selected.
+
+C)   SQL> select id,name,amount,dates from customers right join orders on customers.id = orders.customers_id;
+
+           ID NAME                     AMOUNT DATES
+        ---------- -------------------- ---------- ---------------
+          2 Karthika                   1560 2009-11-20
+          3 Kaushik                    1500 2009-10-08
+          3 Kaushik                    3000 2009-10-08
+          4 Chaithanya                 2060 2008-05-20
+
+D)   SQL> select id,name,amount,dates from customers full join orders on customers.id = orders.customers_id;
+
+           ID NAME                     AMOUNT DATES
+        ---------- -------------------- ---------- ---------------
+          1 Ramesh
+          2 Karthika                   1560 2009-11-20
+          3 Kaushik                    1500 2009-10-08
+          3 Kaushik                    3000 2009-10-08
+          4 Chaithanya                 2060 2008-05-20
+          5 Harsha
+          6 Nimisha
+          7 Mridula
+
+        8 rows selected.
