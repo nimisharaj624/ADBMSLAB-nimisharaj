@@ -1,0 +1,21 @@
+SQL> set serveroutput on
+SQL> declare
+  2       a number;
+  3       b number;
+  4       c number;
+  5   begin
+  6       a:=&a;
+  7       b:=&b;
+  8       c:=a+b;
+  9  dbms_output.put_line('sum of'||a||'and'||b||'is'||c);
+ 10   end;
+ 11   /
+Enter value for a: 20
+old   6:      a:=&a;
+new   6:      a:=20;
+Enter value for b: 40
+old   7:      b:=&b;
+new   7:      b:=40;
+sum of20and40is60
+
+PL/SQL procedure successfully completed.
