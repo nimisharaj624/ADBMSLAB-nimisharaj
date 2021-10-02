@@ -1,0 +1,77 @@
+ Calculate Interest for Fixed Deposit Amount Using Cursors
+
+SQL> CREATE TABLE AMOUNT(ACCNO INT,YEARS INT,AMOUNT INT,INTEREST INT);
+
+Table created.
+
+SQL> INSERT INTO AMOUNT VALUES(100,2,1000,100);
+
+1 row created.
+
+SQL> INSERT INTO AMOUNT VALUES(200,4,2000,200);
+
+1 row created.
+
+SQL> INSERT INTO AMOUNT VALUES(300,3,3000,300);
+
+1 row created.
+
+SQL> INSERT INTO AMOUNT VALUES(400,4,4000,400);
+
+1 row created.
+
+SQL> INSERT INTO AMOUNT VALUES(500,5,5000,500);
+
+1 row created.
+
+SQL> SELECT * FROM AMOUNT;
+
+     ACCNO      YEARS     AMOUNT   INTEREST
+---------- ---------- ---------- ----------
+      100          2       1000        100
+      200          4       2000        200
+      300          3       3000        300
+      400          4       4000        400
+      500          5       5000        500
+
+SQL> UPDATE AMOUNT SET INTEREST=0 WHERE YEARS<=4;
+
+4 rows updated.
+
+SQL> SELECT * FROM AMOUNT;
+
+     ACCNO      YEARS     AMOUNT   INTEREST
+---------- ---------- ---------- ----------
+      100          2       1000          0
+      200          4       2000          0
+      300          3       3000          0
+      400          4       4000          0
+      500          5       5000        500
+
+SQL> DECLARE
+  2  CURSOR AMOUNT IS SELECT * FROM AMOUNT;
+  3  BEGIN
+  4  FOR I IN AMOUNT
+  5  LOOP
+  6  IF I.AMOUNT<=1000 THEN
+  7  UPDATE AMOUNT SET INTEREST=I.AMOUNT*1 WHERE ACCNO=I.ACCNO;
+  8  ELSIF I.AMOUNT>1000 AND I.AMOUNT<=5000 THEN
+  9  UPDATE AMOUNT SET INTEREST=I.AMOUNT*2 WHERE ACCNO=I.ACCNO;
+ 10  ELSE
+ 11  UPDATE AMOUNT SET INTEREST=I.AMOUNT*3 WHERE ACCNO=I.ACCNO;
+ 12  END IF;
+ 13  END LOOP;
+ 14  END;
+ 15  /
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT * FROM AMOUNT;
+
+     ACCNO      YEARS     AMOUNT   INTEREST
+---------- ---------- ---------- ----------
+      100          2       1000       1000
+      200          4       2000       4000
+      300          3       3000       6000
+      400          4       4000       8000
+      500          5       5000      10000
