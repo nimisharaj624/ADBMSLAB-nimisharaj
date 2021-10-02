@@ -1,0 +1,236 @@
+SQL*Plus: Release 11.2.0.2.0 Production on Tue Jun 1 02:09:49 2021
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect system/12345678
+Connected.
+SQL> create table emp(emp_id char(8) check(emp_id like 'E%') primary key,emp_name varchar(18),street_no int,city varchar(18));
+
+Table created.
+
+SQL> insert into emp values('E-101','Nimisha',101,'kottayam');
+
+1 row created.
+
+SQL> insert into emp values('E-102','Kili',101,'kottayam');
+
+1 row created.
+
+SQL> insert into emp values('E-103','Parukutty',102,'Cochin');
+
+1 row created.
+
+SQL> insert into emp values('E-104','Ammu',104,'Ernakulam');
+
+1 row created.
+
+SQL> insert into emp values('E-105','Malu',103,'Alappuzha');
+
+1 row created.
+
+SQL> insert into emp values('E-106','Akshaya',104,'Ernakulam');
+
+1 row created.
+
+SQL> insert into emp values('E-107','Bhavya',105,'Malappuram');
+
+1 row created.
+
+SQL> insert into emp values('E-108','Banu',101,'Kottayam');
+
+1 row created.
+
+SQL> insert into emp values('E-109','Lidan',102,'Cochin');
+
+1 row created.
+
+SQL> insert into emp values('E-110','Unni',106,'Pattambi');
+
+1 row created.
+
+SQL> insert into emp values('E-111','Rahul',107,'Calicut');
+
+1 row created.
+
+SQL> select * from emp;
+
+EMP_ID   EMP_NAME            STREET_NO CITY
+-------- ------------------ ---------- ------------------
+E-101    Nimisha                    101 Kottayam
+E-102    Kili                       101 Kottayam
+E-103    Parukutty                  102 Cochin
+E-104    Ammu                       104 Ernakulam
+E-105    Malu                       103 Alappuzha
+E-106    Akshaya                    10  Ernakulam
+E-107    Bhavya                     105 Malappuram
+E-108    Banu                       101 Kottayam
+E-109    Lidan                      102 Cochin
+E-110    Unni                       106 Pattambi
+E-111    Rahul                      107 Calicut
+
+11 rows selected.
+
+SQL> create table company(company_name varchar(18) primary key,city varchar(18));
+
+Table created.
+
+SQL> insert into company values('SBI','MG Road');
+
+1 row created.
+
+SQL> insert into company values('SBT','MG Road');
+
+1 row created.
+
+SQL> insert into company values('Federal','Broadway');
+
+1 row created.
+
+SQL> insert into company values('Indian Bank','Cochin');
+
+1 row created.
+
+SQL> insert into company values('SBI','Ernakulam');
+
+1 row created.
+
+SQL> select * from company;
+
+COMPANY_NAME       CITY
+------------------ ------------------
+SBI                MG Road
+SBT                MG Road
+Federal            Broadway
+Indian Bank        Cochin
+SIB                Ernakulam
+
+SQL> create table works(emp_id char(8) references emp(emp_id),company_name varchar(18) references company(company_name),salary float,primary key(emp_id,company_name));
+
+Table created.
+
+SQL> insert into works values('E-101','SBI',71000);
+
+1 row created.
+
+SQL> insert into works values('E-102','SBI',90000);
+
+1 row created.
+
+SQL> insert into works values('E-103','SBT',40000);
+
+1 row created.
+
+SQL> insert into works values('E-104','Federal',37000);
+
+1 row created.
+
+SQL> insert into works values('E-105','SBT',17000);
+insert into works values('E-105','SBT',17000)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SYSTEM.SYS_C007022) violated - parent key not
+found
+
+
+SQL> select * from works;
+
+EMP_ID   COMPANY_NAME           SALARY
+-------- ------------------ ----------
+E-101    SBI                     71000
+E-102    SBI                     90000
+E-103    SBT                     40000
+E-104    Federal                 37000
+
+SQL> create table manages(emp_id char(8) references emp(emp_id),manager_id char(8) references emp(emp_id),unique(emp_id,manager_id));
+
+Table created.
+
+SQL> insert into manages values('E-101','E-102');
+
+1 row created.
+
+SQL> insert into manages values('E-102',NULL);
+
+1 row created.
+
+SQL> insert into manages values('E-103','E-110');
+
+1 row created.
+
+SQL> insert into manages values('E-104','E-111');
+
+1 row created.
+
+SQL> insert into manages values('E-105','E-110');
+
+1 row created.
+
+SQL> select * from manages;
+
+EMP_ID   MANAGER_
+-------- --------
+E-101    E-102
+E-102
+E-103    E-110
+E-104    E-111
+E-105    E-110
+
+A)  SQL> select emp_name from works,emp where company_name='SBI' and emp.emp_id=works.emp_id;
+
+      EMP_NAME
+    ------------------
+      Nimisha
+      Kili
+
+B)  SQL> select emp.emp_name from emp,works,company where emp.emp_id=works.emp_id and works.company_name=company.company_name and emp.city=company.city;
+
+      EMP_NAME
+    ------------------
+      Nimisha
+      Kili
+
+C)   SQL> select emp_id from works w1,(select avg(salary) as avgsal,company_name from works group by company_name) w2 where w1.company_name=w2.company_name and w1.salary>w2.avgsal;
+
+      EMP_ID
+     --------
+      E-102
+
+D)   SQL> update works set salary=salary*1.1 where emp_id in (select manager_id from manages) and company_name='SBI';
+
+      1 row updated.
+
+    SQL> select * from works;
+
+    EMP_ID   COMPANY_NAME           SALARY
+   -------- ------------------ ----------
+     E-101    SBI                     71000
+     E-102    SBI                    108900
+     E-103    SBT                     40000
+     E-104    Federal                 37000
+
+E)  SQL> select company_name from works group by company_name having count(emp_id)>=all(select count(emp_id)from works group by company_name);
+
+      COMPANY_NAME
+    ------------------
+         SBI
+
+SQL> select * from works;
+
+EMP_ID   COMPANY_NAME           SALARY
+-------- ------------------ ----------
+E-101    SBI                     71000
+E-102    SBI                    108900
+E-103    SBT                     40000
+E-104    Federal                 37000
+
+F)   SQL> select company_name from works group by company_name having avg (salary)>(select avg(salary) from works group by company_name having company_name='SBT');
+
+        COMPANY_NAME
+      ------------------
+            SBI
+
+SQL> commit;
+
+Commit complete.
+
+ SQL> commit;
