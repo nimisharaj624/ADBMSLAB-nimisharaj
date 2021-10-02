@@ -1,0 +1,50 @@
+SQL*Plus: Release 11.2.0.2.0 Production on Thu Jun 3 10:56:05 2021
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> connect system/12345678
+Connected.
+SQL> set serveroutput on;
+SQL> create or replace function armstrong(n number) return number is
+  2  r number(10);
+  3  a number(10);
+  4  b number(10);
+  5  c number(10);
+  6  begin
+  7  b:=0;
+  8  c:=n;
+  9  while(c>0)
+ 10  loop
+ 11  r:=c mod 10;
+ 12  b:=b+(r*r*r);
+ 13  c:=floor(c/10);
+ 14  end loop;
+ 15  return b;
+ 16  end armstrong;
+ 17  /
+
+Function created.
+
+SQL> declare
+  2  n number(10);
+  3  m number(10);
+  4  begin
+  5  n:=&n;
+  6  m:=armstrong(n);
+  7  if(m=n) then
+  8  dbms_output.put_line('Given no is armstrong number');
+  9  else
+ 10  dbms_output.put_line('Given no is not an armstrong number');
+ 11  end if;
+ 12  end;
+ 13  /
+Enter value for n: 153
+old   5: n:=&n;
+new   5: n:=153;
+Given no is armstrong number
+
+PL/SQL procedure successfully completed.
+
+
+© 2021 GitHub, Inc.
+Ter
