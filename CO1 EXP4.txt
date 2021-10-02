@@ -1,0 +1,127 @@
+SQL> create table Employee(name varchar2(10),da number(10),hra number(10),ta number(10),salary number(10));
+
+Table created.
+
+
+SQL> insert into Employee values('&name','&da','&hra','&ta','&salary');
+Enter value for name: Avani
+Enter value for da: 1000
+Enter value for hra: 2000
+Enter value for ta: 1000
+Enter value for salary: 15000
+old   1: insert into Employee values('&name','&da','&hra','&ta','&salary')
+new   1: insert into Employee values('Avani','1000','2000','1000','15000')
+
+1 row created.
+
+SQL> insert into Employee values('&name','&da','&hra','&ta','&salary');
+Enter value for name: Akhila
+Enter value for da: 1000
+Enter value for hra: 3000
+Enter value for ta: 15000
+Enter value for salary: 20000
+old   1: insert into Employee values('&name','&da','&hra','&ta','&salary')
+new   1: insert into Employee values('Akhil','1000','3000','15000','20000')
+
+1 row created.
+
+SQL> insert into Employee values('&name','&da','&hra','&ta','&salary');
+Enter value for name: Bittu
+Enter value for da: 500
+Enter value for hra: 2000
+Enter value for ta: 500
+Enter value for salary: 90000
+old   1: insert into Employee values('&name','&da','&hra','&ta','&salary')
+new   1: insert into Employee values('Bittu','500','2000','500','90000')
+
+1 row created.
+
+SQL> insert into Employee values('&name','&da','&hra','&ta','&salary');
+Enter value for name: Shiyas
+Enter value for da: 900
+Enter value for hra: 2500
+Enter value for ta: 1000
+Enter value for salary: 11000
+old   1: insert into Employee values('&name','&da','&hra','&ta','&salary')
+new   1: insert into Employee values('Shiyas','900','2500','1000','11000')
+
+1 row created.
+
+SQL> insert into Employee values('&name','&da','&hra','&ta','&salary');
+Enter value for name: Achu
+Enter value for da: 1500
+Enter value for hra: 1000
+Enter value for ta: 2000
+Enter value for salary: 100000
+old   1: insert into Employee values('&name','&da','&hra','&ta','&salary')
+new   1: insert into Employee values('Achu','1500','1000','2000','100000')
+
+1 row created.
+
+SQL> select * from Employee;
+
+NAME               DA        HRA         TA     SALARY
+---------- ---------- ---------- ---------- ----------
+Avani             1000       2000       1000      15000
+Akhila            1000       3000      15000      20000
+Bittu             500        2000        500      90000
+Shiyas            900        2500       1000      11000
+Achu              1500       1000       2000     100000
+
+
+A)   SQL> create view Employeeview as select name,salary from Employee where salary >10000;
+
+      View created.
+
+     SQL> select * from Employeeview;
+
+       NAME           SALARY
+      ---------- ----------
+       Avani            15000
+       Akhila           20000
+       Bittu            90000
+       Shiyas           11000
+       Achu             100000
+	   
+	   
+B)	 SQL> update Employee set salary = 25000;
+
+     5 rows updated.
+
+     SQL> select * from Employee;
+
+       NAME               DA        HRA         TA     SALARY
+     ---------- ---------- ---------- ---------- ----------
+       Avani             1000       2000       1000      25000
+       Akhila            1000       3000      15000      25000
+       Bittu              500       2000        500      25000
+       Shiyas            900        2500       1000      25000
+       Achu              1500       1000       2000      25000
+
+     SQL> select * from Employeeview;
+
+        NAME           SALARY
+      ---------- ----------
+        Avani            25000
+        Akhila           25000
+        Bittu            25000
+        Shiyas           25000
+        Achu             25000
+
+C)   SQL> update Employeeview set salary = 1000;
+
+     5 rows updated.
+
+     SQL> select * from Employeeview;
+
+     no rows selected
+
+     SQL> select * from Employee;
+
+       NAME               DA        HRA         TA     SALARY
+    ---------- ---------- ---------- ---------- ----------
+       Avani             1000       2000       1000       1000
+       Akhila            1000       3000      15000       1000
+       Bittu             500        2000        500       1000
+       Shiyas            900        2500       1000       1000
+       Achu              1500       1000       2000       1000
