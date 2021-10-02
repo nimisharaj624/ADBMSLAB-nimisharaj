@@ -1,0 +1,57 @@
+Calculate Electricity Bill Using Cursors
+
+SQL> CREATE TABLE EBILL(EBNO INT PRIMARY KEY,NAME VARCHAR(20),UNITS INT,CHARGES FLOAT);
+
+Table created.
+
+SQL> INSERT INTO EBILL VALUES(1,'SHINTU',100,99.9);
+
+1 row created.
+
+SQL> INSERT INTO EBILL VALUES(2,'AMMU',200,88.8);
+
+1 row created.
+
+SQL> INSERT INTO EBILL VALUES(3,'BINDHU',300,77.7);
+
+1 row created.
+
+SQL> INSERT INTO EBILL VALUES(4,'SANGEETHA',400,66.6);
+
+1 row created.
+
+SQL> SELECT * FROM EBILL;
+
+      EBNO NAME                      UNITS    CHARGES
+---------- -------------------- ---------- ----------
+         1 SHINTU                    100       99.9
+         2 AMMU                      200       88.8
+         3 BINDHU                    300       77.7
+         4 SANGEETHA                 400       66.6
+
+SQL> DECLARE
+  2  CURSOR BILL IS SELECT * FROM EBILL;
+  3  BEGIN
+  4  FOR I IN BILL
+  5  LOOP
+  6  IF I.UNITS<=100 THEN
+  7  UPDATE EBILL SET CHARGES=I.UNITS*1 WHERE EBNO=I.EBNO;
+  8  ELSIF I.UNITS>100 AND I.UNITS<=400 THEN
+  9  UPDATE EBILL SET CHARGES=I.UNITS*2 WHERE EBNO=I.EBNO;
+ 10  ELSE
+ 11  UPDATE EBILL SET CHARGES=I.UNITS*3 WHERE EBNO=I.EBNO;
+ 12  END IF;
+ 13  END LOOP;
+ 14  END;
+ 15  /
+
+PL/SQL procedure successfully completed.
+
+SQL> SELECT * FROM EBILL;
+
+      EBNO NAME                      UNITS    CHARGES
+---------- -------------------- ---------- ----------
+         1 SHINTU                    100        100
+         2 AMMU                      200        400
+         3 BINDHU                    300        600
+         4 SANGEETHA                 400        800
