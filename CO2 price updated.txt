@@ -1,0 +1,79 @@
+SQL> create table products (product_id integer,product_name varchar(20),price number);
+
+Table created.
+
+SQL> insert into products values(&product_id,'&product_name',&price);
+Enter value for product_id: 101
+Enter value for product_name: Soap
+Enter value for price: 25
+old   1: insert into products values(&product_id,'&product_name',&price)
+new   1: insert into products values(101,'Soap',25)
+
+1 row created.
+
+SQL> insert into products values(&product_id,'&product_name',&price);
+Enter value for product_id: 102
+Enter value for product_name: Sweets
+Enter value for price: 200
+old   1: insert into products values(&product_id,'&product_name',&price)
+new   1: insert into products values(102,'Sweets',200)
+
+1 row created.
+
+SQL> insert into products values(&product_id,'&product_name',&price);
+Enter value for product_id: 103
+Enter value for product_name: Paste
+Enter value for price: 35
+old   1: insert into products values(&product_id,'&product_name',&price)
+new   1: insert into products values(103,'Paste',35)
+
+1 row created.
+
+SQL> insert into products values(&product_id,'&product_name',&price);
+Enter value for product_id: 104
+Enter value for product_name: Pen
+Enter value for price: 5
+old   1: insert into products values(&product_id,'&product_name',&price)
+new   1: insert into products values(104,'Pen',5)
+
+1 row created.
+
+SQL> select * from products;
+
+PRODUCT_ID PRODUCT_NAME              PRICE
+---------- -------------------- ----------
+       101 Soap                         25
+       102 Sweets                      200
+       103 Paste                        35
+       104 Pen                           5
+
+SQL> create or replace procedure product1(id number,total number) is
+  2  p number;
+  3  null_price exception;
+  4  begin
+  5  select price into p from products where product_id=id;
+  6  if p is null then
+  7  raise null_price;
+  8  else
+  9  update product set price=price+total where product_id=id;
+ 10  end if;
+ 11  exception
+ 12  when null_price then
+ 13  dbms_output.put_line('Price is null');
+ 14  end;
+ 15  /
+
+Procedure created.
+
+SQL> exec product1(102,100)
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from product;
+
+PRODUCT_ID PRODUCT_NAME              PRICE
+---------- -------------------- ----------
+       101 Soap                         25
+       102 Sweets                      300
+       103 Paste                        35
+       104 Pen                           5
