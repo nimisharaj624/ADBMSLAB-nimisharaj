@@ -1,0 +1,167 @@
+ create table student_nimisha(rollno integer primary key,name varchar(20),dob date, dept varchar(5),marks float);
+
+A)  SQL> insert into student_nimisha values(1,'nimisha','18-jun-1988','CS',480);
+
+    1 row created.
+
+    SQL>  insert into student_nimisha values(2,'adithya','12-jul-1989','IT',500);
+
+    1 row created.
+	
+    SQL> insert into student_nimisha values(3,'athira','02-aug-1999','mca',480);
+
+    1 row created.
+
+    SQL>  insert into student_nimisha values(4,'akshaya','03-march-1900','maths',500);
+
+    1 row created.
+	
+    SQL> insert into student_nimisha values(5,'bhavya','28-feb-1999','mca',480);
+
+    1 row created.
+
+    SQL>  insert into student_nimisha values(6,'sangeetha','28-feb-1999','mca',500);
+
+    1 row created.
+	
+    SQL> insert into student_nimisha values(7,'aswin','02-nov-1998','civil',480);
+
+    1 row created.
+
+    SQL> insert into student_nimisha values(8,'hashim','12-dec-1997','btech',500);
+
+   1 row created.
+	
+	
+	
+   SQL> select * from student_nimisha;
+
+    ROLLNO NAME                 DOB       DEPT       MARKS
+---------- -------------------- --------- ----- ----------
+         1 nimisha               18-JUN-88 CS           480
+         2 adithya               12-JUL-89 IT           500
+         3 athira                02-AUG-99 MCA          900
+         4 akshaya               03-MAR-00 Maths        300
+         5 bhavya                28-FEB-99 MCA          800
+         6 sangeetha             28-FEB-99 MCA          600
+         7 aswin                 02-NOV-98 civil        650
+         8 hashim                12-DEC-97 Btech        590
+
+8 rows selected.
+	
+	
+	
+	
+B)  SQL> alter table student_nimisha add(address varchar(10));
+
+    Table altered.
+	
+    SQL> alter table student_nimisha modify(name varchar(20));
+
+    Table altered.
+	
+	
+C)  SQL> select * from student_nimisha;
+
+    ROLLNO NAME                 DOB       DEPT       MARKS ADDRESS
+---------- -------------------- --------- ----- ---------- ----------
+         1 nimisha               18-JUN-88 CS           480
+         2 adithya               12-JUL-89 IT           500
+         3 athira                02-AUG-99 MCA          900
+         4 akshaya               03-MAR-00 Maths        300
+         5 bhavya                28-FEB-99 MCA          800
+         6 sangeetha             28-FEB-99 MCA          600
+         7 aswin                 02-NOV-98 civil        650
+         8 hashim                12-DEC-97 Btech        590
+
+   8 rows selected.
+
+ SQL> desc student_nimisha;
+ 
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                    NOT NULL NUMBER(38)
+ NAME                                               VARCHAR2(20)
+ DOB                                                DATE
+ DEPT                                               VARCHAR2(5)
+ MARKS                                              FLOAT(126)
+ ADDRESS                                            VARCHAR2(10)
+
+D)  SQL> alter table student_nimisha modify(address varchar(30));
+
+    Table altered.
+	
+	
+    SQL> alter table student_nimisha modify(address varchar(30));
+
+    Table altered.
+
+    SQL> update student_nimisha set address='NO:5,Gandhinagar' where rollno=1;
+
+    1 row updated.
+
+    SQL> update student_nimisha set address='Flat No:5A,Skyline Aluva' where rollno=2;
+
+    1 row updated.
+
+    SQL> update student_nimisha set address='Apple Heights,Pravattom' where rollno=3;
+
+    1 row updated.
+
+    SQL> update student_nimisha set address='Green Valley,Cochin' where rollno=7;
+	
+   1 row updated.
+
+    
+   SQL> set linesize 120
+	
+    SQL> select * from student_nimisha;
+
+    ROLLNO NAME                 DOB       DEPT       MARKS ADDRESS
+   ---------- -------------------- --------- ----- ---------- ------------------------------
+         1 nimisha               18-JUN-88 CS           480 NO:5,Gandhinagar
+         2 adithya               12-JUL-89 IT           500 Flat No:5A,Skyline Aluva
+         3 athira                02-AUG-99 MCA          900 Apple Heights,Pravattom
+         4 akshaya               03-MAR-00 Maths        300
+         5 bhavya                28-FEB-99 MCA          800
+         6 sangeetha             28-FEB-99 MCA          600
+         7 aswin                 02-NOV-98 civil        650 Green Valley,Cochin
+         8 hashim                12-DEC-97 Btech        590
+
+E)   SQL> select name,dob from student_nimisha where months_between(sysdate,dob)/12<22;
+
+       NAME                 DOB
+     -------------------- ---------
+      akshaya               03-MAR-00
+
+
+F)   SQL> select * from student_nimisha order by marks;
+
+    ROLLNO NAME                 DOB       DEPT       MARKS ADDRESS
+   ---------- -------------------- --------- ----- ---------- ------------------------------
+         4 bavani               03-MAR-00 Maths        300
+         1 nimisha              18-JUN-88 CS           480 NO:5,Gandhinagar
+         2 adithya              12-JUL-89 IT           500 Flat No:5A,Skyline Aluva
+         8 hashim               12-DEC-97 Btech        590
+         6 sangeetha            28-FEB-99 MCA          600
+         7 aswin                02-NOV-98 civil        650 Green Valley,Cochin
+         5 bhavya               28-FEB-99 MCA          800
+         3 athira               02-AUG-99 MCA          900 Apple Heights,Padivattom
+
+   8 rows selected.
+
+G)   SQL> select name from student_nimisha where dept= 'CS' and marks>500;
+
+     no rows selected
+	
+H)   SQL> select name from student_nimisha where marks>(select avg(marks)from student_nimisha);
+
+      NAME
+     --------------------
+     athira
+     bhavya
+     aswin
+	 
+I)   drop table student_nimisha;
+    
+     Table dropped.
