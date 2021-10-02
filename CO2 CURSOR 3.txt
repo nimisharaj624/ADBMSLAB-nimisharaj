@@ -1,0 +1,47 @@
+Write PL/SQL code to update values in create tables by using implicit cursors.
+
+SQL> set serveroutput on;
+
+SQL> desc employee1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(38)
+ NAME                                               VARCHAR2(20)
+ SALARY                                             NUMBER(38)
+
+SQL> select * from emp1;
+
+        ID NAME                     SALARY
+---------- -------------------- ----------
+         1 Rajan                      25000
+         2 Bhavya                     15000
+         3 Dinu                       32000
+         4 Johny                      32678
+         5 Kavitha                    48000
+
+SQL> declare
+  2  num_rows number(5);
+  3  begin
+  4  update employee1 set salary=salary+200;
+  5  if sql%notfound then
+  6  dbms_output.put_line('None of the salaries where updated');
+  7  else if sql%found then
+  8  num_rows:=sql%rowcount;
+  9  dbms_output.put_line('Salaries for '||num_rows||''||' '||'employees are updated');
+ 10  end if;
+ 11  end if;
+ 12  end;
+ 13  /
+Salaries for 5 employees are updated
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from employee1;
+
+        ID NAME                     SALARY
+---------- -------------------- ----------
+         1 Rajan                      25200
+         2 Bhavya                     15200
+         3 Dinu                       32200
+         4 Johny                      32878
+         5 Kavitha                    48200
