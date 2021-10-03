@@ -1,0 +1,93 @@
+SQL> select * from acco;
+
+ACCOUNT_NO ACCOUNTHOLDER_NAME      BALANCE
+---------- -------------------- ----------
+         1 Nimisha                     1000
+         2 Adithya                     5000
+         3 Athira                      3500
+
+SQL> create or replace procedure withdraw(accno1 number,amt1 in number) is
+  2  begin
+  3  update account set balance = balance-amt1 where accno1 =accno1;
+  4  end;
+  5  /
+
+Procedure created.
+
+SQL> create or replace procedure deposit(accno1 number,amt1 in number) is
+  2  begin
+  3  update account set balance = balance-amt1 where accno1 =accno1;
+  4  end;
+  5  /
+
+Procedure created.
+
+SQL> declare
+  2  choice number;
+  3  accno1 number(5);
+  4  amount number(5);
+  5  begin
+  6  accno1:=&accno1;
+  7  choice:=&choice;
+  8  amount:=&amount;
+  9  if choice=1 then
+ 10  deposit(accno1,amount);
+ 11  else
+ 12  withdraw(accno1,amount);
+ 13  end if;
+ 14  end;
+ 15  /
+Enter value for accno1: 1
+old   6: accno1:=&accno1;
+new   6: accno1:=1;
+Enter value for choice: 2
+old   7: choice:=&choice;
+new   7: choice:=2;
+Enter value for amount: 500
+old   8: amount:=&amount;
+new   8: amount:=500;
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from acco;
+
+ACCOUNT_NO ACCOUNTHOLDER_NAME      BALANCE
+---------- -------------------- ----------
+         1 Nimisha                     500
+         2 Adithya                    4500
+         3 athira                     3000
+
+SQL> declare
+  2  choice number;
+  3  accno1 number(5);
+  4  amount number(5);
+  5  begin
+  6  accno1:=&accno1;
+  7  choice:=&choice;
+  8  amount:=&amount;
+  9  if choice=1 then
+ 10  deposit(accno1,amount);
+ 11  else
+ 12  withdraw(accno1,amount);
+ 13  end if;
+ 14  end;
+ 15  /
+Enter value for accno1: 1
+old   6: accno1:=&accno1;
+new   6: accno1:=1;
+Enter value for choice: 1
+old   7: choice:=&choice;
+new   7: choice:=1;
+Enter value for amount: 1000
+old   8: amount:=&amount;
+new   8: amount:=1000;
+
+PL/SQL procedure successfully completed.
+
+SQL> select * from acco;
+
+ACCOUNT_NO ACCOUNTHOLDER_NAME      BALANCE
+---------- -------------------- ----------
+         1 Nimisha                    -500
+         2 Adithya                    3500
+         3 Athira                     2000
