@@ -1,0 +1,84 @@
+Create a trigger that displays a message after update, Delete, Insert operations on a table.
+
+SQL> connect system/12345678;
+Connected.
+SQL> set serveroutput on;
+SQL> drop trigger trg;
+
+Trigger dropped.
+
+SQL> desc employee1;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(38)
+ NAME                                               VARCHAR2(20)
+ SALARY                                             NUMBER(38)
+
+SQL>
+SQL> select * from employee1;
+
+        ID NAME                     SALARY
+---------- -------------------- ----------
+         1 Nimisha                  25000
+         2 anushka                  30000
+         3 arundhathi               27000
+         4 manjusha                 20000
+
+SQL> create or replace trigger trg
+  2  after update or insert or delete on emp1
+  3  for each row
+  4  begin
+  5  if updating then
+  6  dbms_output.put_line('updated');
+  7  elsif inserting then
+  8  dbms_output.put_line('insertion done');
+  9  elsif deleting then
+ 10  dbms_output.put_line('deleted');
+ 11  end if;
+ 12  end;
+ 13  /
+
+Trigger created.
+
+SQL> insert into emp1 values(5,'Babu',29000);
+insertion done
+
+1 row created.
+
+SQL> select * from empoyee1;
+
+        ID NAME                     SALARY
+---------- -------------------- ----------
+         1 Nimisha                  25000
+         2 anushka                  30000
+         3 arundhathi               27000
+         4 manjusha                 20000
+         5 Babu                     29000
+
+SQL> delete from employee1 where id=4;
+deleted
+
+1 row deleted.
+
+SQL> select * from empoyee1;
+
+        ID NAME                     SALARY
+---------- -------------------- ----------
+         1 Nimisha                  25000
+         2 anushka                  30000
+         3 arundhathi               27000
+         5 Babu                     29000
+
+SQL> update empoyee1 set salary=32000 where id=2;
+updated
+
+1 row updated.
+
+SQL> select * from employee1;
+
+        ID NAME                     SALARY
+---------- -------------------- ----------
+         1 Nimisha                  25000
+         2 anushka                  32000
+         3 arundhathi               27000
+         5 Babu                     29000
