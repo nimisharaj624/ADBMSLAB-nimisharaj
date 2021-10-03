@@ -4,7 +4,7 @@ Table created.
 
 SQL> insert into items values(&item_id,'&itemname',&price);
 Enter value for item_id: 132
-Enter value for itemname: Geera
+Enter value for itemname: Rice
 Enter value for price: 206.25
 old   1: insert into items values(&item_id,'&itemname',&price)
 new   1: insert into items values(132,'Rice',206.25)
@@ -13,7 +13,7 @@ new   1: insert into items values(132,'Rice',206.25)
 
 SQL> insert into items values(&item_id,'&itemname',&price);
 Enter value for item_id: 211
-Enter value for itemname: Corn soup
+Enter value for itemname: Chips
 Enter value for price: 34.65
 old   1: insert into items values(&item_id,'&itemname',&price)
 new   1: insert into items values(211,'Chips',34.65)
@@ -22,7 +22,7 @@ new   1: insert into items values(211,'Chips',34.65)
 
 SQL> insert into items values(&item_id,'&itemname',&price);
 Enter value for item_id: 212
-Enter value for itemname: Lays
+Enter value for itemname: Wheat
 Enter value for price: 20
 old   1: insert into items values(&item_id,'&itemname',&price)
 new   1: insert into items values(212,'wheat',20)
@@ -31,7 +31,7 @@ new   1: insert into items values(212,'wheat',20)
 
 SQL> insert into items values(&item_id,'&itemname',&price);
 Enter value for item_id: 453
-Enter value for itemname: Set
+Enter value for itemname: pappadam
 Enter value for price: 99.99
 old   1: insert into items values(&item_id,'&itemname',&price)
 new   1: insert into items values(453,'pappadam',99.99)
